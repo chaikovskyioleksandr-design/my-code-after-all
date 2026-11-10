@@ -1,0 +1,14 @@
+numbers = list(map(int, input().split()))
+
+smallest = numbers[0]
+largest = numbers[0]
+
+for value in numbers:
+    if value < smallest:
+        smallest = value
+    if value > largest:
+        largest = value
+
+print(smallest)
+print(largest)
+print(largest - smallest)
