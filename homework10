@@ -1,0 +1,38 @@
+def digital_root(n):
+    if isinstance(n, bool) or not isinstance(n, int):
+        raise ValueError("n must be an integer")
+
+    def root(m):
+        return m if m < 10 else root(sum(map(int, str(m))))
+
+    return root(abs(n))
+
+
+def run_tests():
+    for n, expected in [
+        (0, 0), (7, 7), (10, 1), (38, 2), (942, 6),
+        (9875, 2), (132189, 6), (493193, 2), (-38, 2),
+    ]:
+        assert digital_root(n) == expected, n
+
+    for bad in [3.5, "38", None, True]:
+        try:
+            digital_root(bad)
+        except ValueError:
+            continue
+        raise AssertionError(f"ValueError expected for {bad!r}")
+
+    print("Автотести пройшли успішно")
+
+
+def main():
+    run_tests()
+    try:
+        number = int(input("Введіть число: ").strip())
+        print(f"Цифровий корінь: {digital_root(number)}")
+    except ValueError:
+        print("Помилка: потрібно ввести ціле число")
+
+
+if __name__ == "__main__":
+    main()
