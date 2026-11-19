@@ -1,0 +1,23 @@
+def counting_sort(arr):
+    if not arr:
+        return []
+    k = max(arr)
+    counts = [0] * (k + 1)
+    for x in arr:
+        counts[x] += 1
+    result = []
+    for value in range(k + 1):
+        result.extend([value] * counts[value])
+    return result
+
+
+def main():
+    arr = list(map(int, input("Enter non-negative integers separated by spaces: ").split()))
+    if any(x < 0 for x in arr):
+        print("Error: all numbers must be non-negative")
+        return
+    print("Sorted:", counting_sort(arr))
+
+
+if __name__ == "__main__":
+    main()
