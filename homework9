@@ -1,0 +1,48 @@
+def calculate_discount(price, discount_percent):
+    if not (price >= 0 and 0 <= discount_percent <= 100):
+        raise ValueError("price must be >= 0 and discount_percent in [0, 100]")
+    return price * (100 - discount_percent) / 100
+
+
+def run_tests():
+    # Example from the task
+    assert calculate_discount(200.0, 15.0) == 170.0
+
+    for args, expected in [
+        ((100, 0), 100),
+        ((100, 100), 0),
+        ((100, 50), 50),
+        ((0, 30), 0),
+        ((19.99, 10), 17.991),
+    ]:
+        assert abs(calculate_discount(*args) - expected) < 1e-9, args
+
+    for args in [
+        (-1, 10),
+        (-0.01, 0),
+        (100, -1),
+        (100, 100.01),
+        (float("nan"), 10),
+        (100, float("nan")),
+    ]:
+        try:
+            calculate_discount(*args)
+        except ValueError:
+            continue
+        raise AssertionError(f"ValueError expected for {args}")
+
+    print("Автотести пройшли успішно")
+
+
+def main():
+    run_tests()
+    try:
+        price = float(input("Введіть ціну: ").replace(",", "."))
+        percent = float(input("Введіть відсоток знижки (0..100): ").replace(",", "."))
+        print(f"Підсумкова ціна: {calculate_discount(price, percent)}")
+    except ValueError as e:
+        print(f"Помилка: {e}")
+
+
+if __name__ == "__main__":
+    main()
