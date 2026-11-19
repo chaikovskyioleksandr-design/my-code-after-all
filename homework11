@@ -1,0 +1,41 @@
+import time
+
+
+def measure(container, target, repeats):
+    contains = container.__contains__
+    start = time.perf_counter()
+    for _ in range(repeats):
+        contains(target)
+    return (time.perf_counter() - start) / repeats
+
+
+def read_int(prompt):
+    return int(input(prompt).strip())
+
+
+def main():
+    try:
+        n = read_int("Введіть n (кількість елементів): ")
+        target = read_int("Введіть елемент для пошуку: ")
+    except ValueError:
+        print("Помилка: потрібно ввести цілі числа")
+        return
+    if n <= 0:
+        print("Помилка: n має бути додатним")
+        return
+
+    data_list = list(range(n))
+    data_set = set(data_list)
+
+    list_time = measure(data_list, target, repeats=20)
+    set_time = measure(data_set, target, repeats=100_000)
+
+    print(f"Елемент знайдено: {target in data_set}")
+    print(f"List search: {list_time:.6f} сек")
+    print(f"Set search: {set_time:.9f} сек")
+    if set_time > 0:
+        print(f"Set швидший приблизно у {list_time / set_time:,.0f} разів")
+
+
+if __name__ == "__main__":
+    main()
